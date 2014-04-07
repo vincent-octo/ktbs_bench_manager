@@ -1,4 +1,4 @@
-from ktbs_bench.benchable_graph import BenchableGraph
+from ktbs_bench_manager import BenchableGraph
 import rdflib
 
 

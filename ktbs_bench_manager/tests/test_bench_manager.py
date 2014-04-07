@@ -1,4 +1,4 @@
-from ktbs_bench.bench_manager import BenchManager
+from ktbs_bench_manager import BenchManager
 import pytest
 
 
