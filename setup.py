@@ -8,8 +8,12 @@ setup(
 
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine
-    install_requires=['rdflib',
+    install_requires=['rdflib==4.1.1',
                       'sutils'],
+
+    dependency_links=['https://github.com/vincent-octo/sutils/tarball/master#egg=sutils-master'],
+
+    extras_require={'tests': ['pytest']},
 
     # metadata for upload to PyPI
     author="Vincent",
