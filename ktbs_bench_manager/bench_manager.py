@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from csv import DictWriter
 import logging
 
-from sutils.decbench import bench as util_bench
+from sutils import bench
 
 
 class BenchManager(object):
@@ -74,7 +74,7 @@ class BenchManager(object):
 
         :param function func: the function to bench
         """
-        func = util_bench(func)  # decorate the function named func
+        func = bench(func)  # decorate the function named func
         self._bench_funcs.append(func)
 
     def context(self, func):
