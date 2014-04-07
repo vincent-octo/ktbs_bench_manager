@@ -1,8 +1,6 @@
 import logging
 
 from rdflib import Graph
-from rdflib.plugins.stores.sparqlstore import SPARQLStore
-from ktbs_bench.bnsparqlstore import SPARQLStore as bn_SPARQLStore
 
 
 class BenchableGraph(object):
@@ -41,32 +39,3 @@ class BenchableGraph(object):
             The graph.close() method is not implemented for SPARQL Store in RDFLib
         """
         self.graph.close(commit_pending_transaction=commit_pending_transaction)
-
-    def clear(self):
-        """Delete all triples of the current graph."""
-        # Helper function that removes triples by iterating over them
-        def clear_one_by_one():
-            for s, p, o in self.graph:
-                self.graph.remove((s, p, o))
-
-        # SPARQL graph
-        if isinstance(self.graph.store, bn_SPARQLStore) or isinstance(self.graph.store, SPARQLStore):
-            try:
-                self.clear_graph_sparql()
-            except:
-                logging.info("Clearing graph with graph.update() didn't work, now removing items one by one.")
-                clear_one_by_one()
-        # Other graph (SQL, etc.)
-        else:
-            clear_one_by_one()
-
-    def clear_graph_sparql(self):
-        """Clear graph by using a SPARQL update query.
-
-        This is more efficient than iterating over every triple in the store
-        and deleting them using RDFLib.
-        """
-        self.graph.update("""
-        DELETE FROM GRAPH <%s> {?s ?p ?o}
-        WHERE { GRAPH <%s> {?s ?p ?o} }
-        """ % (self._graph_id, self._graph_id))
