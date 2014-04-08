@@ -1,6 +1,9 @@
 from rdflib import Graph
 
 
+__all__ = ['BenchableGraph']
+
+
 class BenchableGraph(object):
     """
     Provides a convenient way to use a graph for benchmarks.
@@ -22,9 +25,12 @@ class BenchableGraph(object):
     def connect(self):
         """Connect to the store.
 
-        For some configurations, the connection is postponed until needed
-        (e.g. when doing a graph.query() or graph.add()).
-        This behaviour comes from RDFLib implementation of graph.open().
+        .. note::
+
+            For some configurations, RDFlib will postpone the actual connection to
+            the store until needed (when doing a graph.query() or graph.add()).
+
+            This behaviour comes from RDFbib implementation of graph.open().
         """
         return self.graph.open(configuration=self._store_config, create=self._graph_create)
 
