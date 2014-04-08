@@ -1,5 +1,3 @@
-from uuid import uuid1
-
 import pytest
 from ktbs_bench_manager import BenchableGraph
 import rdflib
@@ -59,35 +57,3 @@ class TestVirtuoso(object):
         except:
             succeed = False
         assert succeed
-
-    @pytest.fixture(scope='module')
-    def non_empty_benchable_store(self, request):
-        graph_id = 'http://localhost/bs/virtuoso/test/%s' % uuid1()
-        virtuoso = BenchableGraph('SPARQLUpdateStore',
-                                  graph_id,
-                                  ("http://localhost:8890/sparql/", "http://localhost:8890/sparql/"),
-                                  graph_create=False)
-        virtuoso.connect()
-
-        # Put some triples in the graph
-        for i in xrange(10):
-            virtuoso.graph.add((rdflib.URIRef('http://localhost/triple/s/%s' % i),
-                                rdflib.URIRef('http://localhost/triple/p/%s' % i),
-                                rdflib.URIRef('http://localhost/triple/o/%s' % i)))
-
-        # Print action to perform on teardown
-        def teardown():
-            # TODO should delete the graph from the store
-            pass
-
-        request.addfinalizer(teardown)
-        return virtuoso
-
-    # Used with non empty graph
-    def test_destroy(self, non_empty_benchable_store):
-        """Empty a graph, there should be not a single triple in the store after destroy()"""
-        # Remove all triples from the store
-        non_empty_benchable_store.clear()
-
-        triple_count = len(non_empty_benchable_store.graph)
-        assert triple_count == 0

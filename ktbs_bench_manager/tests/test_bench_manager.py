@@ -20,19 +20,6 @@ class TestBenchManager(object):
         # Test
         assert len(bm._bench_funcs) == 1
 
-    def test_rtype_bench(self):
-        bm = BenchManager()
-        # Function to bench
-        @bm.bench
-        def bench_func():
-            return 'this is str'
-
-        # Test
-        res_bench_func = bm._bench_funcs[0]()
-        assert isinstance(res_bench_func, tuple)  # should return (str call_sig, float bench_time)
-        assert isinstance(res_bench_func[0], str)
-        assert isinstance(res_bench_func[1], float)
-
     def test_add_context(self):
         bm = BenchManager()
         assert not bm._contexts
