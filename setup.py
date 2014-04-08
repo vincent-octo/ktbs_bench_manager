@@ -11,7 +11,7 @@ setup(
     install_requires=['rdflib==4.1.1',
                       'sutils'],
 
-    dependency_links=['https://github.com/vincent-octo/sutils/tarball/master#egg=sutils-master'],
+    dependency_links=['https://github.com/vincent-octo/sutils/tarball/master#egg=sutils'],
 
     extras_require={'tests': ['pytest']},
 
