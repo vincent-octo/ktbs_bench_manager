@@ -11,9 +11,11 @@ setup(
     install_requires=['rdflib==4.1.1',
                       'sutils'],
 
-    dependency_links=['https://github.com/vincent-octo/sutils/tarball/master#egg=sutils'],
+    dependency_links=['https://github.com/vincent-octo/sutils/tarball/master#egg=sutils',
+                      'https://github.com/RDFLib/rdflib-sqlalchemy/tarball/master#egg=rdflib_sqlachemy'],
 
-    extras_require={'tests': ['pytest']},
+    extras_require={'tests': ['pytest', 'rdflib'],
+                    'sql': ['rdflib-sqlachemy', 'psycopg2']},
 
     # metadata for upload to PyPI
     author="Vincent",
