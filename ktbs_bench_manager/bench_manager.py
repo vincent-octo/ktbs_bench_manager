@@ -12,46 +12,48 @@ class BenchManager(object):
     """
     Manage benchmarks by timing function against different contexts.
 
-    General concept
-    ===============
+    *General concept*
+
     A BenchManager is instantiated in order to collect functions
-    to benchmark, like so:
-    >>> my_bench_manager = BenchManager()
+    to benchmark, like so::
+
+        >>> my_bench_manager = BenchManager()
 
     In order to add functions to bench, one flag them for bench
-    by using the :meth:`bench` decorator. For example:
-    >>> @my_bench_manager.bench
-    ... def add_one(n):
-    ...     return n + 1
+    by using the :meth:`bench` decorator. For example::
+
+        >>> @my_bench_manager.bench
+        ... def add_one(n):
+        ...     return n + 1
 
     Each flagged function is then called against contexts.
     A context is a function with optional setup and teardown, and it
-    must *yield* the parameter that benchmarked functions need.
-    >>> @my_bench_manager.context
-    ... def three():
-    ...     # optional setup
-    ...     try:
-    ...        # yield the parameter
-    ...        yield 3
-    ...     finally:
-    ...        # optional teardown
-    ...        pass
+    must *yield* the parameter that benchmarked functions need::
 
-    Finally, to perform the benchmarks, one must call:
-    >>> my_bench_manager.run('/tmp/my_results.csv')
+        >>> @my_bench_manager.context
+        ... def three():
+        ...     # optional setup
+        ...     try:
+        ...        # yield the parameter
+        ...        yield 3
+        ...     finally:
+        ...        # optional teardown
+        ...        pass
+
+    Finally, to perform the benchmarks, one must call::
+
+        >>> my_bench_manager.run('/tmp/my_results.csv')
 
     The result of the two examples above is to time ``add_one(3)``.
 
-    Technical details
-    =================
+    *Technical details*
+
     Each context is stored in the list :attr:`_contexts`.
     Each function to benchmark is stored in the list :attr:`_bench_funcs`.
 
     When :meth:`run` is called, it will iterate over functions and contexts
     to call each function against each context.
 
-    Attributes
-    ==========
     :ivar list _contexts: contexts to apply
     :ivar list _bench_funcs: functions to benchmark
     :ivar dict _results: collected benchmark results
